@@ -1,0 +1,25 @@
+{
+  "name": "ft-latest-news",
+  "version": "0.0.2",
+  "description": "",
+  "main": "app/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "webapp"
+  ],
+  "author": "The Dude",
+  "license": "ISC",
+  "dependencies": {
+    "compression": "^1.0.1",
+    "express": "4.0.x",
+    "ft-api-client": "2.0.x",
+    "ft-poller": "0.0.x",
+    "hogan-express": "^0.5.2",
+    "lodash": "^2.4.1",
+    "o-date": "git+https://github.com/Financial-Times/o-date.git#v1.2.2",
+    "request": "^2.34.0",
+    "ttl-lru-cache": "0.0.2"
+  }
+}
