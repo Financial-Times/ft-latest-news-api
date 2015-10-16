@@ -6,12 +6,45 @@ const config = require('../config');
 
 module.exports = function (req, res) {
 
+
 	let requestBody = req.body;
 
-	let q = requestBody.q;
+	let q = requestBody.q; //E.g.: 'sections:"Latin America & Caribbean"'
+	let limit = requestBody.limit;
+
+	let dateQuery = '';
+
+	if (limit === '1DAY') { //TODO extract function
+
+		let oneDayAgo = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
+
+		// Convert to a suitable format ISO 8601 Extended Format.
+		let lastPublishDateTime = oneDayAgo.toISOString();
+
+		// Except search API throws a fit if you have milliseconds so trim them off
+		lastPublishDateTime = lastPublishDateTime.slice(0, lastPublishDateTime.length-5) + 'Z';
+
+		dateQuery = 'lastPublishDateTime:>' + lastPublishDateTime;
+
+	} else if (limit === '1WEEK') { //TODO extract function
+
+		let oneWeekAgo = new Date(new Date().getTime() - (24 * 60 * 60 * 1000 * 7));
+
+		// Convert to a suitable format ISO 8601 Extended Format.
+		let lastPublishDateTime = oneWeekAgo.toISOString();
+
+		// Except search API throws a fit if you have milliseconds so trim them off
+		lastPublishDateTime = lastPublishDateTime.slice(0, lastPublishDateTime.length-5) + 'Z';
+
+		dateQuery = 'lastPublishDateTime:>' + lastPublishDateTime;
+	}
+
+	let queryString = `${q} AND ${dateQuery}`;
+
+	console.log(queryString)
 
 	let body = {
-		queryString: q, //E.g.: 'sections:"Latin America & Caribbean"',
+		queryString,
 		resultContext : {
 			aspects : [ "title", "summary", "location"]
 		},
@@ -44,7 +77,9 @@ module.exports = function (req, res) {
 		.then(json => {
 			res.header("Content-Type", "application/json; charset=utf-8");
 
-			let news = json.results[0].results;
+			console.log(json)
+
+			let news = json.results[0].results || [];
 
 			let formattedNews = news.map((singleNews) => {
 
@@ -57,6 +92,7 @@ module.exports = function (req, res) {
 			});
 
 			return res.json(formattedNews);
-		});
+		}).
+		catch(err => console.log(err));
 
 };
