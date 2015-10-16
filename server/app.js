@@ -1,10 +1,11 @@
 'use strict';
 
-var express         = require('express'),
+const express         = require('express'),
     middleware      = require('./middleware.js'),
-    mustache        = require('hogan-express'),
     compression     = require('compression')(),
-    config          = require('./config.js');
+    config          = require('./config.js'),
+    bodyParser = require('body-parser');
+
 
 // Start fetching the data
 require('./fetchNews.js').init();
@@ -17,31 +18,13 @@ app.use(compression);
 // Set CORS headers
 app.use(middleware.allowCrossDomain);
 
-// Using mustache via Hogan
-app.set('view engine', 'mustache');
-
-// Set the default, parent template
-app.set('layout', 'layout');
-
-// Set the partials available to all templates
-app.set('partials', {
-	header: 'partials/header',
-	head: 'partials/head', 
-	footer: 'partials/footer',
-	popularContent: 'partials/popularContent'
-});
-
-// Set the default location for templates
-app.set('views', process.cwd() + '/app/main/tpl');
-
-// Set mustache (hogan) as the rendering engine
-app.engine('mustache', mustache);
-
-// Static resources folder
-app.use(express.static('./static'));
+// Use bodyParser
+app.use(bodyParser.json({
+    limit:'1mb'
+}));
 
 // View the raw search results, useful for debugging
-app.get('/api/searchResults', require('./controllers/searchResults'));
+app.post('/searchResults', require('./controllers/searchResults'));
 
 // View the latest news
 app.get('/latestnews', require('./controllers/latestNews'));

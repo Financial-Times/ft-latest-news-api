@@ -2,7 +2,6 @@
 
 var FtApi				= require('ft-api-client'),
 	latestNewsModel		= require('./models/latestNews.js'),
-	searchResultsModel	= require('./models/searchResults.js'),
 	config				= require('./config.js'),
 	request				= require('request');
 
@@ -82,9 +81,6 @@ function getSearchResults (reqConfig, fetchedResults) {
 			getSearchResults(reqConfig, results);
 			return;
 		}
-
-		// Store the raw search results, useful for debugging
-		searchResultsModel.setModel(results);
 
 		// Get CAPI data to fill out the model
 		getCapiData(results);
