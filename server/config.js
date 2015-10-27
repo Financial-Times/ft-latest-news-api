@@ -29,7 +29,7 @@ if (fs.existsSync(devEnvPath)) {
 exports.PORT = process.env.PORT || 5000;
 
 // General config for polling requests
-exports.POLL_INTERVAL = 1000 * 60 * 1; // ms * secs * mins
+exports.POLL_INTERVAL = process.env.POLL_INTERVAL || 1000 * 60 * 1; // ms * secs * mins
 
 // Application constants
 exports.VERSION = pkg.version;
