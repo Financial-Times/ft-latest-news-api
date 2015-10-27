@@ -39,10 +39,8 @@ var CAPI_KEY = process.env.CAPI_KEY || devEnv.CAPI_KEY;
 exports.CAPI_KEY = CAPI_KEY;
 exports.SEARCH_QUERY = "lastPublishDateTime:>"; // To restrict to just news items: "genre:=\"News\" AND lastPublishDateTime:>"
 exports.MAX_RESULTS = 100;
-exports.TIME_LIMIT = process.env.TIME_LIMIT || devEnv.TIME_LIMIT || 8; // A time in past measuerd in hours 
-exports.getCapiSearchPath = function () {
-	return 'http://api.ft.com/content/search/v1?apiKey=' + CAPI_KEY;
-};
+exports.TIME_LIMIT = process.env.TIME_LIMIT || devEnv.TIME_LIMIT || 8; // A time in past measured in hours
+exports.capiSearchPath = 'http://api.ft.com/content/search/v1?apiKey=' + CAPI_KEY;
 
 // My alerts config
 exports.MY_ALERTS_CACHE_LENGTH = 5000;
