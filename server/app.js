@@ -29,7 +29,7 @@ app.post('/searchResults', require('./controllers/searchResults'));
 // View the latest news
 //app.get('/latestnews', require('./controllers/latestNews'));
 
-// Utilty end points
+// Utility end points
 app.get('/__health', require('./controllers/health'));
 
 app.listen(config.PORT);
