@@ -1,0 +1,15 @@
+{
+  "name":"ft-latest-news-api",
+  "scripts":{},
+  "env":{
+    "CAPI_KEY":{
+      "required":true
+    },
+    "TIME_LIMIT":{
+      "required":true
+    }
+  },
+  "addons":[
+    "papertrail"
+  ]
+}
