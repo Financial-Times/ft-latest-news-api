@@ -8,12 +8,11 @@ var FtApi				= require('ft-api-client'),
 
 // Calculate the date in the past from when search results should be fetched
 function getLastPublishDateTime () {
-    var lastPublishDateTime = null,
-        thePast = Date.now() - (config.TIME_LIMIT * 3600000), // hours * milliseconds in an hour
+        let thePast = Date.now() - (config.TIME_LIMIT * 3600000), // hours * milliseconds in an hour
         date = new Date(thePast);
 
     // Convert to a suitable format ISO 8601 Extended Format.
-    lastPublishDateTime = date.toISOString();
+    let lastPublishDateTime = date.toISOString();
 
     // Except search API throws a fit if you have milliseconds so trim them off
     lastPublishDateTime = lastPublishDateTime.slice(0, lastPublishDateTime.length-5) + 'Z';
@@ -25,7 +24,7 @@ function getLastPublishDateTime () {
 // Build a configuration object specific to making a request to the search API
 function getSearchRequestConfig (offset) {
 	return {
-		path: config.getCapiSearchPath(),
+		path: config.capiSearchPath,
 		offset: offset
 	};
 }
@@ -63,7 +62,7 @@ function getSearchResults (reqConfig, fetchedResults) {
 		// Parse the results
 		var searchResponse, maxResults, offset, indexCount;
 
-		// Parse the response body, concatonate the results
+		// Parse the response body, concatenate the results
 		try {
 			searchResponse	= JSON.parse(resBody);
 			maxResults = searchResponse.query.resultContext.maxResults;
@@ -86,9 +85,6 @@ function getSearchResults (reqConfig, fetchedResults) {
 		getCapiData(results);
 	});
 }
-// Expose this function for testing
-exports.getSearchResults = getSearchResults;
-
 
 // Fetch data from the content API
 function getCapiData (resultsList) {

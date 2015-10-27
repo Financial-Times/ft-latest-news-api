@@ -11,5 +11,5 @@ module.exports = function (req, res) {
 
 	var latestNews = latestNewsViewModel.buildModel(data);
 	res.header("Content-Type", "application/json; charset=utf-8");
-	res.jsonp(latestNews.articles);
+	res.json(latestNews.articles);
 };
