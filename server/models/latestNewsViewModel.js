@@ -2,25 +2,10 @@
 
 var latestNewsModel		= require('./latestNews.js');
 
-// We look for FT members of staff, if present we add an alert tag to identify content without author metatdata
-function addFtUserData (latestNewsModel, req) {
-
-	latestNewsModel = latestNewsModel.map(function (newsItem) {
-
-		newsItem.authorAlert = false;
-
-		return newsItem;
-	});
-	return latestNewsModel;
-}
-
 exports.buildModel = function (data) {
 	var model = {};
 	var articles = latestNewsModel.getModel().articles;
 
-	// We may not have retrieved any data from CAPI yet or there could be some other issue
-	articles = addFtUserData(articles, data.req);
-	
 	//searchApiJson.runCount		= appState.getRunCount();
 	//searchApiJson.appStartDate	= appState.getAppStartDate();
 	model.title						= data.title;
