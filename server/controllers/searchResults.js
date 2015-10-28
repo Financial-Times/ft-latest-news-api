@@ -6,7 +6,6 @@ const config = require('../config');
 
 module.exports = function (req, res) {
 
-
 	let requestBody = req.body;
 
 	let q = requestBody.q; //E.g.: 'sections:"Latin America & Caribbean"'
@@ -41,8 +40,6 @@ module.exports = function (req, res) {
 
 	let queryString = `${q} AND ${dateQuery}`;
 
-	console.log(queryString)
-
 	let body = {
 		queryString,
 		resultContext : {
@@ -65,7 +62,7 @@ module.exports = function (req, res) {
 		'Content-Length': Buffer.byteLength(stringBody)
 	};
 
-	fetch(config.getCapiSearchPath(), params)
+	fetch(config.capiSearchPath, params)
 		.then(response => {
 			if (response.status >= 200 && response.status < 300) {
 				return response.json();
@@ -76,8 +73,6 @@ module.exports = function (req, res) {
 		})
 		.then(json => {
 			res.header("Content-Type", "application/json; charset=utf-8");
-
-			console.log(json)
 
 			let news = json.results[0].results || [];
 
@@ -92,7 +87,7 @@ module.exports = function (req, res) {
 			});
 
 			return res.json(formattedNews);
-		}).
-		catch(err => console.log(err));
+		})
+		.catch(err => console.log(err));
 
 };

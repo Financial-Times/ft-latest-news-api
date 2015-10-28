@@ -1,11 +1,11 @@
 'use strict';
 
-var latestNewsModel		= require('./latestNews.js');
+var latestNewsModel	= require('./latestNews.js');
 
 exports.buildModel = function (data) {
 	var model = {};
 	var articles = latestNewsModel.getModel().articles;
-
+	
 	//searchApiJson.runCount		= appState.getRunCount();
 	//searchApiJson.appStartDate	= appState.getAppStartDate();
 	model.title						= data.title;
