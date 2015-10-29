@@ -7,6 +7,9 @@
     },
     "TIME_LIMIT":{
       "required":true
+    },
+    "POLL_INTERVAL":{
+      "required":true
     }
   },
   "addons":[
