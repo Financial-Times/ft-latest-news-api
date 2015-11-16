@@ -78,7 +78,10 @@ module.exports = function (req, res) {
 
 			let formattedNews = news.map((singleNews) => {
 
+				console.log(singleNews);
+
 				return {
+					id: singleNews.id,
 					title: singleNews.title.title,
 					url: singleNews.location.uri,
 					summary: singleNews.summary.excerpt
