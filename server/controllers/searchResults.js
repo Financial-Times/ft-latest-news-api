@@ -91,6 +91,10 @@ module.exports = function (req, res) {
 
 			return res.json(formattedNews);
 		})
-		.catch(err => console.log(err));
+		.catch(err => {
+			return res.status(400).send({
+				message: err
+			});
+		});
 
 };
