@@ -38,7 +38,7 @@ module.exports = function (req, res) {
 		dateQuery = 'lastPublishDateTime:>' + lastPublishDateTime;
 	}
 
-	let queryString = q ? `${q} AND ${dateQuery}` : dateQuery;
+	let queryString = q ? `(${q}) AND ${dateQuery}` : dateQuery;
 
 	let body = {
 		queryString,
