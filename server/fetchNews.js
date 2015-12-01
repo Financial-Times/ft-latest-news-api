@@ -114,7 +114,6 @@ var getSearchPostJson = function (sapiResultsOffset) {
 	            offset: sapiResultsOffset
 	        }
     };
-    console.log('config settings: searchPostJson=' + JSON.stringify(searchPostJson));
     return searchPostJson;
 };
 exports.getSearchPostJson = getSearchPostJson;

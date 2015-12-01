@@ -37,7 +37,6 @@ exports.buildModel = function (err, capiData) {
 	});
 
 	parsedCapiData = parsedCapiData.sort(sortByPublishTime);
-	console.log('Model updated with', parsedCapiData.length, 'results');
 	model.articles = parsedCapiData;
 };
 
