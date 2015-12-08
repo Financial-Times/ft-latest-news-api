@@ -95,18 +95,26 @@ module.exports = function (req, res) {
 
 			ftApi.getItems(idList, null, (err, allResults) => {
 
-				let formattedResults = allResults.map((singleNews) => {
+				if (allResults) {
+					let formattedResults = allResults.map((singleNews) => {
 
-					return {
-						id: singleNews.item.id,
-						title: singleNews.item.title.title,
-						url: singleNews.item.location.uri,
-						summary: singleNews.item.summary.excerpt
-					};
+						return {
+							id: singleNews.item.id,
+							title: singleNews.item.title.title,
+							url: singleNews.item.location.uri,
+							summary: singleNews.item.summary.excerpt
+						};
 
-				});
+					});
 
-				res.json(formattedResults);
+					return res.json(formattedResults);
+				} else {
+					return res.status(400).send({
+						message: 'The search API returned an error'
+					});
+				}
+
+
 			});
 
 		})
