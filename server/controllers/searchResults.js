@@ -47,7 +47,13 @@ module.exports = function (req, res) {
 			aspects : [ "title", "summary", "location"]
 		},
 		queryContext : {
-			curations : [ "ARTICLES"]
+			curations : [
+				"ARTICLES",
+				"BLOGS",
+				"PAGES",
+				"PODCASTS",
+				"VIDEOS"
+			]
 		}
 	};
 
