@@ -2,6 +2,7 @@
 
 const fetch = require('node-fetch');
 const config = require('../config');
+const FtApi = require('ft-api-client');
 
 
 module.exports = function (req, res) {
@@ -72,22 +73,36 @@ module.exports = function (req, res) {
 			}
 		})
 		.then(json => {
+
 			res.header("Content-Type", "application/json; charset=utf-8");
 
 			let news = json.results[0].results || [];
 
-			let formattedNews = news.map((singleNews) => {
-
-				return {
-					id: singleNews.id,
-					title: singleNews.title.title,
-					url: singleNews.location.uri,
-					summary: singleNews.summary.excerpt
-				};
-
+			let idList = news.map(function (resultItem) {
+				return resultItem.id;
 			});
 
-			return res.json(formattedNews);
+			let ftApi = new FtApi({
+				apiKey: config.CAPI_KEY,
+				featureFlags: ['blogposts'] // Blogs are still behind a feature flag
+			});
+
+			ftApi.getItems(idList, null, (err, allResults) => {
+
+				let formattedResults = allResults.map((singleNews) => {
+
+					return {
+						id: singleNews.item.id,
+						title: singleNews.item.title.title,
+						url: singleNews.item.location.uri,
+						summary: singleNews.item.summary.excerpt
+					};
+
+				});
+
+				res.json(formattedResults);
+			});
+
 		})
 		.catch(err => {
 			return res.status(400).send({
