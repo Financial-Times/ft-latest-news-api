@@ -93,6 +93,8 @@ module.exports = function (req, res) {
 				featureFlags: ['blogposts'] // Blogs are still behind a feature flag
 			});
 
+			ftApi.setLogLevel(FtApi.LOG_LEVEL_INFO);
+
 			ftApi.getItems(idList, null, (err, allResults) => {
 
 				if (allResults) {
@@ -102,7 +104,8 @@ module.exports = function (req, res) {
 							id: singleNews.item.id,
 							title: singleNews.item.title.title,
 							url: singleNews.item.location.uri,
-							summary: singleNews.item.summary.excerpt
+							summary: singleNews.item.summary.excerpt,
+							images: singleNews.item.images
 						};
 
 					});
