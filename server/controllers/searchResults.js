@@ -44,7 +44,7 @@ module.exports = function (req, res) {
 	let body = {
 		queryString,
 		resultContext : {
-			aspects : [ "title", "summary", "location"]
+			maxResults : "100"
 		},
 		queryContext : {
 			curations : [
