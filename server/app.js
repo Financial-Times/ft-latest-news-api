@@ -6,10 +6,6 @@ const express         = require('express'),
     config          = require('./config.js'),
     bodyParser = require('body-parser');
 
-
-// Start fetching the data
-require('./fetchNews.js').init();
-
 var app = express();
 
 // Enable output compression
@@ -25,9 +21,6 @@ app.use(bodyParser.json({
 
 // View the raw search results, useful for debugging
 app.post('/searchResults', require('./controllers/searchResults'));
-
-// View the latest news
-app.get('/latestnews', require('./controllers/latestNews'));
 
 // Utility end points
 app.get('/__health', require('./controllers/health'));
