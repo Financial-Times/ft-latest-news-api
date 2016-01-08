@@ -84,6 +84,10 @@ module.exports = function (req, res) {
 
 			let news = json.results[0].results || [];
 
+			if (!news.length) {
+				return res.json(news);
+			}
+
 			let idList = news.map(function (resultItem) {
 				return resultItem.id;
 			});
