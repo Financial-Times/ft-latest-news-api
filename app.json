@@ -4,12 +4,6 @@
   "env":{
     "CAPI_KEY":{
       "required":true
-    },
-    "TIME_LIMIT":{
-      "required":true
-    },
-    "POLL_INTERVAL":{
-      "required":true
     }
   },
   "addons":[
