@@ -97,8 +97,6 @@ module.exports = function (req, res) {
 				featureFlags: ['blogposts'] // Blogs are still behind a feature flag
 			});
 
-			ftApi.setLogLevel(FtApi.LOG_LEVEL_INFO);
-
 			ftApi.getItems(idList, null, (err, allResults) => {
 
 				if (allResults) {
