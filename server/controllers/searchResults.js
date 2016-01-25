@@ -102,7 +102,7 @@ module.exports = function (req, res) {
 				if (err) {
 					
 					return res.status(400).send({
-						message: err.message
+						message: err
 					});
 					
 				} else if (allResults) {
