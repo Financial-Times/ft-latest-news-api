@@ -99,13 +99,8 @@ module.exports = function (req, res) {
 
 			ftApi.getItems(idList, null, (err, allResults) => {
 				
-				if (err) {
+				if (allResults) {
 					
-					return res.status(400).send({
-						message: err
-					});
-					
-				} else if (allResults) {
 					let formattedResults = allResults.map((singleNews) => {
 
 						return {
@@ -121,9 +116,7 @@ module.exports = function (req, res) {
 					return res.json(formattedResults);
 					
 				} else {
-					return res.status(400).send({
-						message: 'CAPI returned an error'
-					});
+					return res.json([]);
 				}
 
 
