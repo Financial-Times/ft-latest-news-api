@@ -98,8 +98,14 @@ module.exports = function (req, res) {
 			});
 
 			ftApi.getItems(idList, null, (err, allResults) => {
-
-				if (allResults) {
+				
+				if (err) {
+					
+					return res.status(400).send({
+						message: err.message
+					});
+					
+				} else if (allResults) {
 					let formattedResults = allResults.map((singleNews) => {
 
 						return {
@@ -113,9 +119,10 @@ module.exports = function (req, res) {
 					});
 
 					return res.json(formattedResults);
+					
 				} else {
 					return res.status(400).send({
-						message: 'The search API returned an error'
+						message: 'CAPI returned an error'
 					});
 				}
 
