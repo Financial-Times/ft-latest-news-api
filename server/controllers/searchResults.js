@@ -13,8 +13,10 @@ module.exports = function (req, res) {
 	let limit = requestBody.limit;
 
 	let dateQuery = '';
-
-	if (limit === '1DAY') { //TODO extract function
+    
+    //TODO: actually parse the string
+    //TODO: extract function
+	if (limit === '1DAY') { 
 
 		let oneDayAgo = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
 
@@ -37,7 +39,20 @@ module.exports = function (req, res) {
 		lastPublishDateTime = lastPublishDateTime.slice(0, lastPublishDateTime.length-5) + 'Z';
 
 		dateQuery = 'lastPublishDateTime:>' + lastPublishDateTime;
-	}
+        
+	} else if (limit === '12HOURS') {
+        
+        let twelveHoursAgo = new Date(new Date().getTime() - (12 * 60 * 60 * 1000));
+
+		// Convert to a suitable format ISO 8601 Extended Format.
+		let lastPublishDateTime = twelveHoursAgo.toISOString();
+
+		// Except search API throws a fit if you have milliseconds so trim them off
+		lastPublishDateTime = lastPublishDateTime.slice(0, lastPublishDateTime.length-5) + 'Z';
+
+		dateQuery = 'lastPublishDateTime:>' + lastPublishDateTime;
+        
+    }
 
 	let queryString = q ? `(${q}) AND ${dateQuery}` : dateQuery;
 
