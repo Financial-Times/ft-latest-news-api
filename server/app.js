@@ -4,7 +4,8 @@ const express         = require('express'),
     middleware      = require('./middleware.js'),
     compression     = require('compression')(),
     config          = require('./config.js'),
-    bodyParser = require('body-parser');
+    bodyParser = require('body-parser'),
+    editions = require('./controllers/editions');
 
 var app = express();
 
@@ -21,6 +22,11 @@ app.use(bodyParser.json({
 
 // View the raw search results, useful for debugging
 app.post('/searchResults', require('./controllers/searchResults'));
+
+// View the raw search results, useful for debugging
+app.get('/editions/:editionsId', editions.get);
+
+app.param('editionsId', editions.editionsById);
 
 // Utility end points
 app.get('/__health', require('./controllers/health'));
