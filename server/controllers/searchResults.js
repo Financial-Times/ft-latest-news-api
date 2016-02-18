@@ -14,45 +14,36 @@ module.exports = function (req, res) {
 
 	let dateQuery = '';
     
-    //TODO: actually parse the string
-    //TODO: extract function
+    let lastPublishDateTime;
+
 	if (limit === '1DAY') { 
 
 		let oneDayAgo = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
 
 		// Convert to a suitable format ISO 8601 Extended Format.
-		let lastPublishDateTime = oneDayAgo.toISOString();
+		lastPublishDateTime = oneDayAgo.toISOString();
 
-		// Except search API throws a fit if you have milliseconds so trim them off
-		lastPublishDateTime = lastPublishDateTime.slice(0, lastPublishDateTime.length-5) + 'Z';
-
-		dateQuery = 'lastPublishDateTime:>' + lastPublishDateTime;
 
 	} else if (limit === '1WEEK') { //TODO extract function
 
 		let oneWeekAgo = new Date(new Date().getTime() - (24 * 60 * 60 * 1000 * 7));
 
 		// Convert to a suitable format ISO 8601 Extended Format.
-		let lastPublishDateTime = oneWeekAgo.toISOString();
-
-		// Except search API throws a fit if you have milliseconds so trim them off
-		lastPublishDateTime = lastPublishDateTime.slice(0, lastPublishDateTime.length-5) + 'Z';
-
-		dateQuery = 'lastPublishDateTime:>' + lastPublishDateTime;
+		lastPublishDateTime = oneWeekAgo.toISOString();
         
 	} else if (limit === '12HOURS') {
         
         let twelveHoursAgo = new Date(new Date().getTime() - (12 * 60 * 60 * 1000));
 
 		// Convert to a suitable format ISO 8601 Extended Format.
-		let lastPublishDateTime = twelveHoursAgo.toISOString();
-
-		// Except search API throws a fit if you have milliseconds so trim them off
-		lastPublishDateTime = lastPublishDateTime.slice(0, lastPublishDateTime.length-5) + 'Z';
-
-		dateQuery = 'lastPublishDateTime:>' + lastPublishDateTime;
-        
+		lastPublishDateTime = twelveHoursAgo.toISOString();
+       
     }
+    
+    // Except search API throws a fit if you have milliseconds so trim them off
+    lastPublishDateTime = lastPublishDateTime.slice(0, lastPublishDateTime.length-5) + 'Z';
+
+    dateQuery = 'lastPublishDateTime:>' + lastPublishDateTime;
 
 	let queryString = q ? `(${q}) AND ${dateQuery}` : dateQuery;
 
