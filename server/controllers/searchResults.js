@@ -5,14 +5,19 @@ const config = require('../config');
 const FtApi = require('ft-api-client');
 
 
-const ISOMap = {
-  '1DAY': (24 * 60 * 60 * 1000),
+const DateTimeMap = {
   '1WEEK': (24 * 60 * 60 * 1000 * 7),
   '12HOURS': (12 * 60 * 60 * 1000)
 };
 
 function constructISODateQuery(limit) {
-  const time = new Date(new Date().getTime() - (ISOMap[limit] || (24 * 60 * 60 * 1000)));
+  const oneDay = 24 * 60 * 60 * 1000;
+  let time;
+  if (limit.includes('DAY')) {
+    time = new Date(new Date().getTime() - (oneDay * parseInt(limit, 10) || oneDay));
+  } else {
+    time = new Date(new Date().getTime() - (DateTimeMap[limit] || oneDay));
+  }
   // Search API throws a fit if you have milliseconds so trim them off
   const limitDateTime = time.toISOString();
   return 'lastPublishDateTime:>' + limitDateTime.slice(0, limitDateTime.length-5) + 'Z';
