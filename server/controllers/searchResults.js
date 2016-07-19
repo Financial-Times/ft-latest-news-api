@@ -112,7 +112,7 @@ module.exports = function (req, res) {
 
 		})
 		.catch(err => {
-			return res.status(400).send({
+			return res.status(400).json({
 				message: 'The search API returned an error'
 			});
 		});
