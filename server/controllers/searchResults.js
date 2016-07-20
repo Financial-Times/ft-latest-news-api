@@ -5,6 +5,24 @@ const config = require('../config');
 const FtApi = require('ft-api-client');
 
 
+const DateTimeMap = {
+  '1WEEK': (24 * 60 * 60 * 1000 * 7),
+  '12HOURS': (12 * 60 * 60 * 1000)
+};
+
+function constructISODateQuery(limit) {
+  const oneDay = 24 * 60 * 60 * 1000;
+  let time;
+  if (limit.includes('DAY')) {
+    time = new Date(new Date().getTime() - (oneDay * parseInt(limit, 10) || oneDay));
+  } else {
+    time = new Date(new Date().getTime() - (DateTimeMap[limit] || oneDay));
+  }
+  // Search API throws a fit if you have milliseconds so trim them off
+  const limitDateTime = time.toISOString();
+  return 'lastPublishDateTime:>' + limitDateTime.slice(0, limitDateTime.length-5) + 'Z';
+}
+
 module.exports = function (req, res) {
 
 	let requestBody = req.body;
@@ -12,39 +30,7 @@ module.exports = function (req, res) {
 	let q = requestBody.q; //E.g.: 'sections:"Latin America & Caribbean"'
 	let limit = requestBody.limit;
 
-	let dateQuery = '';
-    
-    let lastPublishDateTime;
-
-	if (limit === '1DAY') { 
-
-		let oneDayAgo = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
-
-		// Convert to a suitable format ISO 8601 Extended Format.
-		lastPublishDateTime = oneDayAgo.toISOString();
-
-
-	} else if (limit === '1WEEK') { //TODO extract function
-
-		let oneWeekAgo = new Date(new Date().getTime() - (24 * 60 * 60 * 1000 * 7));
-
-		// Convert to a suitable format ISO 8601 Extended Format.
-		lastPublishDateTime = oneWeekAgo.toISOString();
-        
-	} else if (limit === '12HOURS') {
-        
-        let twelveHoursAgo = new Date(new Date().getTime() - (12 * 60 * 60 * 1000));
-
-		// Convert to a suitable format ISO 8601 Extended Format.
-		lastPublishDateTime = twelveHoursAgo.toISOString();
-       
-    }
-    
-    // Except search API throws a fit if you have milliseconds so trim them off
-    lastPublishDateTime = lastPublishDateTime.slice(0, lastPublishDateTime.length-5) + 'Z';
-
-    dateQuery = 'lastPublishDateTime:>' + lastPublishDateTime;
-
+	let dateQuery = constructISODateQuery(limit);
 	let queryString = q ? `(${q}) AND ${dateQuery}` : dateQuery;
 
 	let body = {
@@ -131,7 +117,7 @@ module.exports = function (req, res) {
 
 		})
 		.catch(err => {
-			return res.status(400).send({
+			return res.status(400).json({
 				message: 'The search API returned an error'
 			});
 		});
