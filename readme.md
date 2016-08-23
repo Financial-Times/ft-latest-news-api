@@ -1,4 +1,4 @@
-A feed of the lastest content from FT.com in Node.js
+A feed of the latest content from FT.com in Node.js
 ===
 
 To run locally
