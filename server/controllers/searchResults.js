@@ -28,7 +28,7 @@ module.exports = function (req, res) {
 	let requestBody = req.body;
 
 	let q = requestBody.q; //E.g.: 'sections:"Latin America & Caribbean"'
-	let limit = requestBody.limit;
+	let limit = requestBody.limit.toUpperCase();
 
 	let dateQuery = constructISODateQuery(limit);
 	let queryString = q ? `(${q}) AND ${dateQuery}` : dateQuery;
