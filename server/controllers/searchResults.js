@@ -29,6 +29,8 @@ module.exports = function (req, res) {
 
 	let q = requestBody.q; //E.g.: 'sections:"Latin America & Caribbean"'
 	let limit = requestBody.limit;
+  let filter = requestBody.filter || [];
+  let summaryFilter = filter.includes('summary');
 
 	let dateQuery = constructISODateQuery(limit);
 	let queryString = q ? `(${q}) AND ${dateQuery}` : dateQuery;
@@ -90,21 +92,34 @@ module.exports = function (req, res) {
 			});
 
 			ftApi.getItems(idList, null, (err, allResults) => {
+        //console.log(err);
 				
 				if (allResults) {
 					
-					let formattedResults = allResults.map((singleNews) => {
+					let formattedResults = allResults.reduce((newsArr, singleNews) => {
 
-						return {
-							id: singleNews.item.id,
-							title: singleNews.item.title.title,
-							url: singleNews.item.location.uri,
-							summary: singleNews.item.summary.excerpt,
-							images: singleNews.item.images,
-                            body: singleNews.item.body.body
-						};
+            if (!summaryFilter) {
+              newsArr.push({
+                id: singleNews.item.id,
+                title: singleNews.item.title.title,
+                url: singleNews.item.location.uri,
+                summary: singleNews.item.summary.excerpt,
+                images: singleNews.item.images,
+                body: singleNews.item.body.body
+              });
+            } else if (summaryFilter && singleNews.item.summary.excerpt) { 
+              newsArr.push({
+                id: singleNews.item.id,
+                title: singleNews.item.title.title,
+                url: singleNews.item.location.uri,
+                summary: singleNews.item.summary.excerpt,
+                images: singleNews.item.images,
+                body: singleNews.item.body.body
+              });
+            }
 
-					});
+            return newsArr;
+					}, []);
 
 					return res.json(formattedResults);
 					
