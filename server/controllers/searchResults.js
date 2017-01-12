@@ -93,36 +93,34 @@ module.exports = function (req, res) {
 
 			ftApi.getItems(idList, null, (err, allResults) => {
         //console.log(err);
-				
+
 				if (allResults) {
-					
+
 					let formattedResults = allResults.reduce((newsArr, singleNews) => {
 
+            const newsItem = {
+              brand: singleNews.item.metadata.brand.length && singleNews.item.metadata.brand[0].term.name,
+              genre: singleNews.item.metadata.genre.length && singleNews.item.metadata.genre[0].term.name,
+              author: singleNews.item.metadata.authors.length && singleNews.item.metadata.authors[0].term.name,
+              id: singleNews.item.id,
+              title: singleNews.item.title.title,
+              url: singleNews.item.location.uri,
+              summary: singleNews.item.summary.excerpt,
+              images: singleNews.item.images,
+              body: singleNews.item.body.body
+            }
+
             if (!summaryFilter) {
-              newsArr.push({
-                id: singleNews.item.id,
-                title: singleNews.item.title.title,
-                url: singleNews.item.location.uri,
-                summary: singleNews.item.summary.excerpt,
-                images: singleNews.item.images,
-                body: singleNews.item.body.body
-              });
-            } else if (summaryFilter && singleNews.item.summary.excerpt) { 
-              newsArr.push({
-                id: singleNews.item.id,
-                title: singleNews.item.title.title,
-                url: singleNews.item.location.uri,
-                summary: singleNews.item.summary.excerpt,
-                images: singleNews.item.images,
-                body: singleNews.item.body.body
-              });
+              newsArr.push(newsItem);
+            } else if (summaryFilter && singleNews.item.summary.excerpt) {
+              newsArr.push(newsItem);
             }
 
             return newsArr;
 					}, []);
 
 					return res.json(formattedResults);
-					
+
 				} else {
 					return res.json([]);
 				}
