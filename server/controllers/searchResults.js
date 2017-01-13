@@ -92,7 +92,6 @@ module.exports = function (req, res) {
 			});
 
 			ftApi.getItems(idList, null, (err, allResults) => {
-        //console.log(err);
 
 				if (allResults) {
 

@@ -17,7 +17,6 @@ exports.get = (req, res) => {
 
             let formattedResults = allResults.map((singleNews) => {
 
-                console.log(singleNews);
 
                 return {
                     id: singleNews.id,
