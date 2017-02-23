@@ -45,8 +45,7 @@ module.exports = function (req, res) {
         "ARTICLES",
         "BLOGS",
         "PAGES",
-        "PODCASTS",
-        "VIDEOS"
+        "PODCASTS"
       ]
     }
   };
