@@ -101,7 +101,7 @@ module.exports = function (req, res) {
               title: singleNews.item.title.title,
               url: singleNews.item.location.uri,
               summary: singleNews.item.summary.excerpt,
-              images: singleNews.item.images.filter(i => !i.url.includes('ft-static')),
+              images: singleNews.item.images,
               body: singleNews.item.body.body
             }
 
