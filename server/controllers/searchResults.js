@@ -99,7 +99,7 @@ module.exports = function (req, res) {
             const newsItem = {
               id: singleNews.item.id,
               title: singleNews.item.title.title,
-              url: singleNews.item.location.uri,
+              url: 'http://www.ft.com/content/' + singleNews.item.id,
               summary: singleNews.item.summary.excerpt,
               images: singleNews.item.images,
               body: singleNews.item.body.body
