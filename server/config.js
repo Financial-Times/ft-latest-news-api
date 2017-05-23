@@ -37,6 +37,7 @@ exports.CAPI_KEY = CAPI_KEY;
 exports.SEARCH_QUERY = "lastPublishDateTime:>"; // To restrict to just news items: "genre:=\"News\" AND lastPublishDateTime:>"
 exports.MAX_RESULTS = 100;
 exports.capiSearchPath = 'http://api.ft.com/content/search/v1?apiKey=' + CAPI_KEY;
+exports.listsPath = 'http://api.ft.com/lists/'
 
 // My alerts config
 exports.MY_ALERTS_CACHE_LENGTH = 5000;

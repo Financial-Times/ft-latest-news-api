@@ -5,7 +5,8 @@ const express         = require('express'),
     compression     = require('compression')(),
     config          = require('./config.js'),
     bodyParser = require('body-parser'),
-    editions = require('./controllers/editions');
+    editions = require('./controllers/editions'),
+    lists = require('./controllers/lists');
 
 var app = express();
 
@@ -27,6 +28,8 @@ app.post('/searchResults', require('./controllers/searchResults'));
 app.get('/editions/:editionsId', editions.get);
 
 app.param('editionsId', editions.editionsById);
+
+app.get('/contentLists/:listId', lists.get);
 
 // Utility end points
 app.get('/__health', require('./controllers/health'));
